@@ -1,0 +1,173 @@
+﻿@using LibraryApp.Data.ViewModels;
+@model StripeDashboardVM;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Transactions overview</h2>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Available Credit: $@string.Format("{0:#.00}", Convert.ToDecimal(@Model.Balance.Available.Sum(n => n.Amount)) / 100) </h4>
+    </div>
+    <div class="col-md-6">
+        <h4>Pending Credit: $@string.Format("{0:#.00}", Convert.ToDecimal(@Model.Balance.Pending.Sum(n => n.Amount)) / 100) </h4>
+    </div>
+</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Status</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Created</th>
+            <th scope="col">Available on</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
+            <tr>
+                <th scope="row">@transaction.Type</th>
+                <td>@transaction.Status</td>
+                <td>$@string.Format("{0:#.00}", Convert.ToDecimal(@transaction.Amount) / 100)</td>
+                <td>@transaction.Created</td>
+                <td>@transaction.AvailableOn</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Customers overview</h2>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <th scope="row">@customer.Name</th>
+                <td>$@string.Format("{0:#.00}", Convert.ToDecimal(@customer.Balance) / 100)</td>
+                <td>@customer.Created</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Charges Overview</h2>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Receipt Number</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">CustomerId</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var charge in Model.Charges)
+        {
+            <tr>
+                <th scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(@charge.Amount) / 100)</th>
+                <td>@charge.ReceiptNumber</td>
+                <td>@charge.Created</td>
+                <td>@charge.Currency</td>
+                <td>@charge.CustomerId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Stripe Disputes</h2>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dispute in Model.Disputes)
+        {
+            <tr>
+                <th scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(@dispute.Amount) / 100)</th>
+                <td>@dispute.Created</td>
+                <td>@dispute.Currency</td>
+                <td>@dispute.Reason</td>
+                <td>@dispute.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Stripe Refunds</h2>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Receipt Number</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var refund in Model.Refunds)
+        {
+            <tr>
+                <th scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(refund.Amount) / 100)</th>
+                <td>@refund.ReceiptNumber</td>
+                <td>@refund.Created</td>
+                <td>@refund.Currency</td>
+                <td>@refund.Reason</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Stripe Products</h2>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+            <th scope="col">Unit Label</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Created</td>
+                <td>@product.StatementDescriptor</td>
+                <td>@product.UnitLabel</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

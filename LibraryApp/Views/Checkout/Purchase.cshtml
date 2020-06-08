@@ -1,0 +1,30 @@
+﻿@model LibraryApp.Data.Models.Book
+
+@{
+    ViewData["Title"] = "Purchase";
+}
+
+<div class="wrapper">
+    <div class="checkout container">
+        <form id="payment-form" method="post" asp-controller="Checkout" asp-action="Create">
+            @Html.HiddenFor(n => n.Id)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" name="Title" asp-for="@Model.Title">@Model.Title</h5>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text"><small class="text-muted">Author: @Model.Author</small></p>
+                    <p class="card-text"><small class="text-muted">Price: @Model.Price</small></p>
+                </div>
+                <img style="width: 90%" class="card-img-bottom" src="@Model.Thumbnail" alt="Card image cap">
+            </div>
+            <hr />
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_test_51GrP6DJdRKor0YJWMOINy0zggcwvEQoJdUjnnZAIP6oRVPjoSJwyY9y4yYC6ZyxNycoxFJnH5itcwNICqwcVU9Mo00gOFF2WzG"
+                    data-name="BookJack Payment"
+                    data-description="@Model.Author - @Model.Title"
+                    data-locale="en"
+                    data-label="Confirm Payment - $@ViewBag.PaymentAmount">
+            </script>
+        </form>
+    </div>
+</div>
